@@ -1,3 +1,6 @@
+
+# TrilhaFrontEnd  
+
 a) Com suas palavras defina o que é um sistema de controle de versões (VCS)? (máx 10 linhas)
 
 Os sistemas de controle de versão é um softwere que serve para rastrear e gerenciar as alterações em um código de software e gerenciar diferentes versões no desenvolvimento de um documento, podendo gerenciar alterações no codigo-fonte podendo melhorar a forma das equipes trabalharem de forma mais rapida e inteligente.
@@ -12,8 +15,6 @@ b) Cite 5 vantagens em utilizar um VCS:
 
 c) Cite 3 exemplos de VCS:
 
-1- Subversion
-2- Git
-3- Mercurial
-
-# trilhaFrontEnd
+- Subversion
+- Git
+- Mercurial
