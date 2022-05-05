@@ -1,8 +1,8 @@
-<h1><strong> Desafio 2</strong></h1>
+<h1 align="center"><strong>Desafio 2 - A</strong></h1>
 
 <h2>a) Sobre HTML, responda:</h2>
 
-<br><h2>I.  Cite  as  principais  tags  HTML  e  para  que  servem  respectivamente.  Dê  exemplos  de  situações reais de onde são usadas;</h3></br>
+<br><h2>I.  Cite  as  principais  tags  HTML  e  para  que  servem  respectivamente.  Dê  exemplos  de  situações reais de onde são usadas;</h2></br>
 
 <br><h3> Tags de comentários:</h3></br>
 São usadas para deixar anotações para deixar o código mais organizado, sendo que não são visíveis no navegador.
