@@ -1,0 +1,19 @@
+ /*Para o tabuleiro em CSS*/
+        
+ div {
+    width: 43px;
+    height: 43px;
+    position: relative;
+    left: 266px;
+    margin-top: -0.0em;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.black {
+    background-color: black;
+}
+
+.gray {
+    background-color: gray;
+}
