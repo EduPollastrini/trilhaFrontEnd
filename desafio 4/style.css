@@ -53,6 +53,12 @@ nav {
     text-decoration: none;
 }
 
+nav,
+ul,
+li {
+    list-style: none;
+}
+
 
 nav ul.menu {
     display: flex;
