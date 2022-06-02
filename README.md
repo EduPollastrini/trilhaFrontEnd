@@ -634,16 +634,34 @@ Transformar strings, valores monetários, datas e outros dados para exibição. 
 <br><h3>II. Cite os 6 pipes que fazem parte do pacote inicial do Angular. </h3></br>
 
 - DatePipe;
+```html 
+{{ value_expression | date [ : format [ : timezone [ : locale ] ] ] }}
+```
 
 - UpperCasePipe;
+```html
+{{ value_expression | uppercase }}
+```
 
 - LowerCasePipe;
+```html
+{{ value_expression | lowercase }}
+```
 
 - CurrencyPipe;
+```html
+{{ value_expression | currency [ : currencyCode [ : display [ : digitsInfo [ : locale ] ] ] ] }}
+```
 
 - DecimalPipe;
+```
+{{ value_expression | number [ : digitsInfo [ : locale ] ] }}
+```
 
 - PercentPipe.
+```html
+{{ value_expression | percent [ : digitsInfo [ : locale ] ] }}
+```
 
 <br><h3>III. Descreva a funcionalidade de cada um dos pipes citados acima e dê um exemplo da sua utilização, juntamente com o resultado em tela.</h3></br>
 

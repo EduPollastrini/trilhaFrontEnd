@@ -11,6 +11,7 @@ import { TestesPipeComponent } from './components/testes-pipe/testes-pipe.compon
 import { CpfPipe } from './pipes/cpf.pipe';
 import { CnpjPipe } from './pipes/cnpj.pipe';
 import { CodigoConvitePipe } from './pipes/codigo-convite.pipe';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CodigoConvitePipe } from './pipes/codigo-convite.pipe';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
