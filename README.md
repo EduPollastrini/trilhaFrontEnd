@@ -654,7 +654,7 @@ Transformar strings, valores monetários, datas e outros dados para exibição. 
 ```
 
 - DecimalPipe;
-```
+```html
 {{ value_expression | number [ : digitsInfo [ : locale ] ] }}
 ```
 
@@ -680,3 +680,460 @@ Transformar strings, valores monetários, datas e outros dados para exibição. 
 <br><h3>IV. O que são custom pipes?</h3></br>
 
 Custom pipes (pipes personalizados) são utilizados para criar transformações personalizadas do pipe.
+
+<br></br>
+
+---
+
+<h1 align="center"><strong>Serviços - Desafio - 5.3</strong></h1>
+
+<br><h2>Item 1: Services</h2></br>
+
+<br><h2>a) A respeito de services, responda:</h2></br>
+
+<br><h3>I. Qual o propósito de services no angular? </h3></br>
+
+O services é uma categoria ampla que engloba qualquer valor, função ou recurso que um aplicativo precisa. Um serviço é tipicamente uma classe com um propósito estreito e bem definido. Deve fazer algo específico e fazê-lo bem.
+
+<br><h3>II. Porque no Angular há uma distinção entre components e services?</h3></br>
+
+Angular distingue componentes de serviços para aumentar a modularidade e a reutilização. Ao separar a funcionalidade relacionada à visualização de um componente de outros tipos de processamento, você pode tornar suas classes de componentes enxutas e eficientes.
+
+<br><h3>III. Como as services são disponibilizadas em um component?</h3></br>
+
+Um component pode delegar determinadas tarefas aos services, como buscar dados do servidor, validar a entrada do usuário ou fazer logon diretamente no console. Ao definir essas tarefas de processamento em uma classe de serviço injetável , você disponibiliza essas tarefas para qualquer componente. Você também pode tornar seu aplicativo mais adaptável injetando diferentes provedores do mesmo tipo de serviço, conforme apropriado em diferentes circunstâncias.
+
+<br><h3>VI. Que tipo de tarefas uma service pode ter?</h3></br>
+
+Pode ter tarefas direcioadas pelo componet, sendo elas a busca de dados do servidor, validador de entrada do usuário ou fazer logon diretamente no console.
+
+<br><h3>V. Verdadeiro ou Falso. Uma service precisa obrigatoriamente estar em pelo menos um módulo? Justifique sua escolha.</h3></br>
+
+Verdadeiro, pois ela precisa deste módulo para gerar a função e realizar a comunicação com o component.
+
+<br><h3>VI. Verdadeiro ou Falso. Uma service é do tipo de padrão de projeto Singleton?Justifique sua escolha.</h3></br>
+
+Verdadeiro, pois o singleton é uma classe que deve ter apenas uma instância e pode ser utilizado por mais components e services.
+
+<br><h3>VII. Escreva uma service que deverá ter os seguintes métodos e em cada um deverá escrever uma implementação básica (pode ser usado Arrays):
+
+- getUsers( ): <any> { }
+```html
+getUsers( ): <users> { 
+    	return this.http.get<users>(this.url);
+}
+```
+
+- getUserById(userId: number): <any> { }
+```html
+getUserById(userId: number): <number> { 
+    	return this.http.get<number>(this.url);
+}
+```
+
+- setUsers(users: any): <any> { }
+```hmtl
+setUsers(users: any): <any> {
+    	return this.http.get<any>(this.url);
+}
+```
+
+- deleteUser(userId: number): <any> { }</h3></br>
+```html
+- deleteUser(userId: number): <number> { 
+    	return this.http.delete<number>(this.url);
+}
+```
+
+<br><h2>b) A respeito de services, responda:</h2></br>
+
+<br><h3>I. O que é Injeção de Dependências?</h3></br>
+
+A DI é conectada à estrutura Angular e usada em todos os lugares para fornecer novos componentes com os serviços ou outras coisas que eles precisam. Componentes consomem serviços; ou seja, você pode injetar um serviço em um componente, dando ao componente acesso a essa classe de serviço.
+
+<br><h3>II. Verdadeiro  ou  Falso.  Injeção  de  Dependências  pode  ser  apenas  de  services? Justifique sua escolha.</h3></br>
+
+Falso, pode ser também uma função, por exemplo, ou um valor.
+
+<br><h3>III. Verdadeiro ou Falso. O Angular quando vai instanciar uma classe de componente verifica se as injeções de dependência já não estão sendo usadas?Justifique sua escolha.</h3></br>
+
+Verdadeiro, ao saber que um componente depende de um serviço, o angular primeiro verifica se o injetor possui instâncias existentes desse serviço. Se uma instância de serviço solicitada ainda não existir, o injetor cria uma usando o provedor registrado e a adiciona ao injetor antes de retornar o serviço ao Angular.
+
+<br><h2>c) HTTP Client:</h2></br>
+
+<br><h3>I. O que é o protocolo HTTP?</h3></br>
+
+O protocolo HTTP é responsável por fornecer a comunicação entre front-end e o servidor, ele baixa, carrega dados e acessa também outros serviços de back-end.
+
+<br><h3>II. Cite outros tipos de comunicação com o backend e faça um breve resumo de cada.</h3></br>
+
+- REST: Um conjunto de princípios e definições necessários para a criação de um projeto com interfaces bem definidas.
+
+- SOAP: Um protocolo para troca de informações estruturadas em uma plataforma descentralizada e distribuída.
+
+<br><h3>III. Que recursos o HTTP nos fornece?</h3></br>
+
+- A capacidade de solicitar objetos de resposta digitados;
+
+- Tratamento de erros simplificado;
+
+- Recursos de testabilidade;
+
+- Interceptação de solicitação e resposta.
+
+<br><h3>IV. Para usar o HttpClient no Angular, como devemos fazer sua importação e injeção?</h3></br>
+
+É necessário importar o arquivo Angular HttpClientModule. Configurar o injetor de dependência HttpClient com serviços de suporte para XSRF (Sea Surf ou Session Riding - é um vetor de ataque que aplica um truque no navegador web, fazendo com que ele execute uma ação indesejada na aplicação web alvo onde a vítima está logada). Importado automaticamente por HttpClientModule.
+
+<br><h3>V. Verdadeiro ou Falso. O HttpClient pode ser usado com RxJS? Justifique sua escolha.</h3></br>
+
+Verdadeiro, pois o HttpClient solicita informações e recupera as respostas, e o RxJS é uma biblioteca para construção de programas assíncronos ou baseado em eventos, utilizando uma sequência de observables.
+
+<br><h3>VI. Cite os principais métodos HTTP e faça um breve resumo de cada.</h3></br>
+
+- get(): este método recebe dois argumentos; a URL do terminal a partir da qual buscar e um objeto de opções que é usado para configurar a solicitação;
+
+- POST: Cria um novo Produto;
+
+- PUT: Atualiza um produto;
+
+- DELETE: Deleta um produto;
+
+- HEAD: O método HEAD solicita uma resposta de forma idêntica ao método GET, porém sem conter o corpo da resposta;
+
+- CONNECT: O método CONNECT estabelece um túnel para o servidor identificado pelo recurso de destino;
+
+- OPTIONS: O método OPTIONS é usado para descrever as opções de comunicação com o recurso de destino;
+
+- TRACE: O método TRACE executa um teste de chamada loop-back junto com o caminho para o recurso de destino;
+
+- PATCH: O método PATCH é utilizado para aplicar modificações parciais em um recurso.
+
+<br><h3>VII. Verdadeiro ou Falso. Com o protocolo HTTP é possível dizer/setar o tipo de resposta do servidor backend? Justifique sua escolha.</h3></br>
+
+Verdade, pois através do HttpClient.get() - método para buscar dados de um servidor - O método assíncrono envia uma solicitação HTTP e retorna um Observable que emite os dados solicitados quando a resposta é recebida. O tipo de retorno varia com base nos valores observee responseTypeque você passa para a chamada.
+
+<br><h3>VIII. Cite os tipos de retorno que uma requisição HTTP pode ter? Faça um breve resumo de cada.</h3></br>
+
+- Respostas de informação (100-199): Códigos informativos indicando que a solicitação iniciada pelo navegador continua;
+
+- Respostas de sucesso (200-299): Retornados quando o pedido do navegador foi recebido, compreendido e processado pelo servidor;
+
+- Redirecionamentos (300-399): Retornados quando um novo recurso foi substituído pelo recurso solicitado;
+
+- Erros do cliente (400-499): Indicando que houve um problema com o pedido;
+
+- Erros do servidor (500-599): Indicam que a solicitação foi aceita, mas que um erro no servidor impediu o cumprimento da solicitação.
+
+<br><h3>IX. Cite os principais status de uma requisição HTTP e faça um breve resumo de cada.</h3></br>
+
+- 100 Continue: Essa resposta provisória indica que tudo ocorreu bem até agora e que o cliente deve continuar com a requisição ou ignorar se já concluiu o que gostaria;
+
+- 201 Created: A requisição foi bem sucedida e um novo recurso foi criado como resultado. Esta é uma tipica resposta enviada após uma requisição POST;
+
+- 303 See Other: O servidor manda essa resposta para instruir ao cliente buscar o recurso requisitado em outra URI com uma requisição GET;
+
+- 405 Method Not Allowed: O método de solicitação é conhecido pelo servidor, mas foi desativado e não pode ser usado. Os dois métodos obrigatórios, GET e HEAD, nunca devem ser desabilitados e não devem retornar este código de erro;
+
+- 501 Not Implemented: O método da requisição não é suportado pelo servidor e não pode ser manipulado. Os únicos métodos exigidos que servidores suportem (e portanto não devem retornar este código) são GET e HEAD.
+
+<br><h3>X. Faça um exemplo de chamadas do tipo GET, POST, PUT, DELETE.</h3></br>
+
+GET
+```html
+getUsers( ): <users> { 
+    	return this.http.get<users>(this.url);
+}
+```
+
+POST
+```html
+getUserById(userId: number): <number> { 
+    	return this.http.post<number>(this.url);
+}
+```
+
+PUT
+```html
+getPeso(peso: quilos): <quilos> {
+    	return this.http.put<quilos>(this.url);
+}
+```
+
+DELETE
+```html
+- deletePeso(peso: quilos): <quilos> { 
+    	return this.http.delete<quilos>(this.url);
+}
+```
+
+<br><h3>XI. Para que serve o cabeçalho em uma requisição HTTP?</h3></br>
+
+Os cabeçalhos HTTP permitem que o cliente e o servidor passem informações adicionais com a solicitação ou a resposta HTTP.
+
+Cabeçalhos podem ser classificados de acordo com os seus contextos:
+
+- Cabeçalho genérico: Cabeçalhos que podem ser usados tanto em solicitações quanto em respostas, porém sem relação com os dados eventualmente transmitidos no corpo da mensagem;
+
+- Cabeçalho de solicitação: Cabeçalhos contendo mais informação sobre o recurso a ser obtido ou sobre o próprio cliente;
+
+- Cabeçalho de resposta (en-US): Cabeçalhos contendo informação adicional sobre a solicitação, como a sua localização ou sobre o servidor;
+
+- Cabeçalho de entidade: Cabeçalhos contendo mais informação sobre o conteúdo da entidade, como o tamanho do conteúdo ou o seu MIME-type.
+
+<br><h3>XII. O que é um Interceptor e quais as suas aplicações?</h3></br>
+
+O interceptor, inspeciona e transforma solicitações HTTP de seu aplicativo para um servidor e pode também inspecionar e transformar as respostas de um servidor no caminho de volta ao aplicativo. Vários interceptores formam uma cadeia de manipuladores de solicitação/resposta para frente e para trás.
+
+Os interceptores podem executar uma variedade de tarefas implícitas , desde a autenticação até o registro, de maneira rotineira e padrão, para cada solicitação/resposta HTTP.
+
+Sem interceptação, os desenvolvedores teriam que implementar essas tarefas explicitamente para cada HttpClientchamada de método.
+
+Para implementar um interceptor, declare uma classe que implemente o intercept()método da HttpInterceptor (intercepta e manipula um HttpRequestou HttpResponse.) interface.
+
+<br><h3>XIII. Quais cenários mais comuns podemos usar Interceptors?</h3></br>
+
+Quando se é necessário executar uma variedade de tarefas implícitas , desde a autenticação até o registro, de maneira rotineira e padrão, para cada solicitação/resposta HTTP.
+
+<br><h2>d) RxJS:</h2></br>
+
+<br><h3>I. O que é o RxJS?</h3></br>
+
+RxJS é uma biblioteca para compor programas assíncronos e baseados em eventos usando sequências observáveis.
+
+<br><h3>II. Qual a diferença de Promises e Observables?</h3></br>
+
+- Promise são ansiosas, enquanto Observable são preguiçosos,
+
+- Promise sempre são assíncronas, enquanto Observable pode ser tanto síncronas quanto assíncronas;
+
+- Promise sempre retornam o mesmo valor, enquanto Observable pode retornar um fluxo de valores, de nenhum a vários.
+
+<br><h3>III. O que significa ser baseado em eventos?</h3></br>
+
+Significa ser baseado em ações a serem tomadas pelo usuário, por exemplo, evento em um click, utilização de um botão, a interação disposta a partir dessas ações.
+
+<br><h3>VI. O que é o padrão de projetos Observer?</h3></br>
+
+Os OBSERVERs registram-se no SUBJECT para receber atualizações quando os dados do SUBJECT são alterados. Os OBSERVERs também podem cancelar o seu registro e dessa forma não receber mais nenhuma atualização do SUBJECT.
+
+<br><h3>V.  O que é o padrão de projetos Iterator?</h3></br>
+
+O padrão Iterator permite o acesso sequencial aos elementos de um conjunto sem expor sua implementação subjacente. O padrão Iterator também é responsável por toda a tarefa de iteração, eliminando assim a responsabilidade adicional, simplificando, assim a sua aplicação e deixando a responsabilidade onde deveria estar.
+
+<br><h3>VI. O que é programação funcional com coleções?</h3></br>
+Programação funcional é uma forma de programação declarativa. Por outro lado, a maioria das linguagens mais conhecidas, incluindo linguagens OOP (programação orientada a objeto), como C#, Visual Basic, C++ e Java, foram criadas para dar suporte principalmente à programação imperativa (de procedimento).
+
+Na programação funcional a modelagem de um problema computacional é composta por uma coleção de funções que interagem entre si utilizando recursos como: composição funcional, condições e recursão. Essencialmente, “a computação é vista como uma função matemática mapeando entradas e saídas” – onde não há uma noção de estado, e com essa perspectiva, distingue-se diretamente dos paradigmas imperativo, lógico e/ou orientado à objeto.
+
+<br><h3>VII. Quais os conceitos básicos do RxJS para eventos assíncronos? Descreva todos e dê um exemplo de como utilizá-lo.</h3></br>
+
+- Observable: representa a ideia de uma coleção invocável de valores ou eventos futuros;
+
+- Observer: é uma coleção de callbacks que sabe escutar os valores entregues pelo Observable;
+
+- Subscription: representa a execução de um Observável, é útil principalmente para cancelar a execução;
+
+- Operators: são funções puras que permitem um estilo de programação funcional de lidar com coleções com operações como map, filter, concat, reduce, etc;
+
+- Subject: é equivalente a um EventEmitter e a única maneira de multicast de um valor ou evento para vários observadores;
+
+- Schedulers: são despachantes centralizados para controlar a simultaneidade, permitindo-nos coordenar quando a computação acontece em, por exemplo, setTimeoutou requestAnimationFrameoutros.
+
+<br><h3>VIII. Quais são os operadores de criação?</h3></br>
+
+- ajax;
+
+- bindCallback;
+
+- bindNodeCallback;
+
+- defer;
+
+- empty;
+
+- from;
+
+- fromEvent;
+
+- fromEventPattern;
+
+- generate;
+
+- interval;
+
+- of;
+
+- range;
+
+- throwError;
+
+- timer;
+
+- iif.
+
+<br><h3>IX. Ainda dentro de operadores de criação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
+
+- ajax; Ele cria um observável para uma solicitação Ajax com um objeto de solicitação com url, cabeçalhos, etc. ou uma string para uma URL.
+```html
+const ajax: AjaxCreationMethod;
+```
+
+- from; Cria um Observable a partir de um Array, um objeto do tipo array, um Promise, um objeto iterável ou um objeto do tipo Observable.
+```html
+from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>
+```
+
+- fromEvent; Cria um Observable que emite eventos de um tipo específico provenientes de determinado destino de evento.
+```html
+fromEvent<T>(target: any, eventName: string, options?: EventListenerOptions | ((...args: any[]) => T), resultSelector?: (...args: any[]) => T): Observable<T>
+```
+
+- generate; Gera uma sequência observável executando um loop controlado por estado produzindo os elementos da sequência, usando o agendador especificado para enviar mensagens de observador.
+```html
+generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>, condition?: ConditionFunc<S>, iterate?: IterateFunc<S>, resultSelectorOrScheduler?: SchedulerLike | ResultFunc<S, T>, scheduler?: SchedulerLike): Observable<T>
+```
+- of; Converte os argumentos em uma sequência observável.
+```html
+of<T>(...args: (SchedulerLike | T)[]): Observable<T>
+```
+- interval; Cria um Observable que emite números sequenciais a cada intervalo de tempo especificado, em um SchedulerLike.
+```html
+interval(period: number = 0, scheduler: SchedulerLike = asyncScheduler): Observable<number>
+```
+- throwError; Emitir erro na assinatura.
+```html
+throwError(errorOrErrorFactory: any, scheduler?: SchedulerLike): Observable<never>
+```
+- timer; Após determinada duração, emite números em sequência a cada duração especificada.
+```html
+timer(dueTime: number | Date = 0, intervalOrScheduler?: number | SchedulerLike, scheduler: SchedulerLike = asyncScheduler): Observable<number>
+```
+
+<br><h3>X. Quais os operadores de criação de associação?</h3></br>
+
+- combineLatest;
+
+- concat;
+
+- forkJoin;
+
+- merge;
+
+- partition;
+
+- race;
+
+- zip.
+
+<br><h3>XI. Ainda dentro de operadores de criação de associação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
+
+- concat; Cria um Observable de saída que emite sequencialmente todos os valores do primeiro Observable fornecido e depois passa para o próximo.
+```html
+concat(...args: any[]): Observable<unknown>
+```
+
+- forkJoin; Aceita um ou um dicionário Arrayde e retorna um que emite uma matriz de valores na mesma ordem exata da matriz passada ou um dicionário de valores na mesma forma que o dicionário passado.ObservableInputObjectObservableInputObservable
+```html
+forkJoin(...args: any[]): Observable<any>
+```
+
+- merge; Cria uma saída Observable que emite simultaneamente todos os valores de cada entrada Observable.
+```html
+merge(...args: (number | SchedulerLike | Observable<unknown> | InteropObservable<unknown> | AsyncIterable<unknown> | PromiseLike<unknown> | ArrayLike<...> | Iterable<...> | ReadableStreamLike<...>)[]): Observable<unknown>
+```
+
+<br><h3>XII. Quais os operadores de transformação?</h3></br>
+
+- buffer;
+
+- bufferCount;
+
+- bufferTime;
+
+- bufferToggle;
+
+- bufferWhen;
+
+- concatMap;
+
+- concatMapTo;
+
+- exhaust;
+
+- exhaustMap;
+
+- expand;
+
+- groupBy;
+
+- map;
+
+- mapTo;
+
+- mergeMap;
+
+- mergeMapTo;
+
+- mergeScan;
+
+- pairwise;
+
+- partition;
+
+- pluck;
+
+- scan;
+
+- switchScan;
+
+- switchMap;
+
+- switchMapTo;
+
+- window;
+
+- windowCount;
+
+- windowTime;
+
+- windowToggle;
+
+- windowWhen;
+
+<br><h3>XIII. Ainda dentro de operadores de transformação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
+
+- concatMap; Projeta cada valor de origem para um Observable que é mesclado no Observable de saída, de maneira serializada, esperando que cada um seja concluído antes de mesclar o próximo.
+```html
+concatMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+```
+
+- map; Aplica uma determinada projectfunção a cada valor emitido pelo Observable de origem e emite os valores resultantes como um Observable.
+```html
+map<T, R>(project: (value: T, index: number) => R, thisArg?: any): OperatorFunction<T, R>
+```
+
+- mapTo; Emite o valor constante dado na saída Observable toda vez que a fonte Observable emite um valor.
+```html
+mapTo<R>(value: R): OperatorFunction<any, R>
+```
+
+- mergeMap; Projeta cada valor de origem para um Observable que é mesclado na saída Observable.
+```html
+mergeMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: number | ((outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R), concurrent: number = Infinity): OperatorFunction<T, ObservedValueOf<O> | R>
+```
+
+- mergeMapTo; Projeta cada valor de origem para o mesmo Observable que é mesclado várias vezes na saída Observable.
+```html
+mergeMapTo<T, R, O extends ObservableInput<unknown>>(innerObservable: O, resultSelector?: number | ((outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R), concurrent: number = Infinity): OperatorFunction<T, ObservedValueOf<O> | R>
+```
+
+- switchMap; Projeta cada valor de origem para um Observable que é mesclado no Observable de saída, emitindo valores apenas do Observable projetado mais recentemente.
+```html
+switchMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+```
+
+- switchMapTo; Projeta cada valor de origem para o mesmo Observable que é nivelado várias vezes com switchMapo Observable de saída.
+```html
+switchMapTo<T, R, O extends ObservableInput<unknown>>(innerObservable: O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+```
