@@ -1,0 +1,30 @@
+<header>
+    <div class="container3">
+        <nav>
+            <h3>
+                <a href="#" style="color:purple; text-decoration: none;">
+                    <font face="verdana">YOUR</font>
+                    <font face="lucida sans">LOGO</font>
+                </a>
+            </h3>
+
+            <img class="imgmenu" src="https://img.icons8.com/android/24/000000/menu.png"  (click)="toggle=!toggle">
+           
+
+            <div class="container2" *ngIf="toggle || innerWidth > 769">
+                <ul class="menu" >
+                    <li><a class="itemMenu" href="#">Home</a></li>
+                    <li><a class="itemMenu" href="#">Profile</a></li>
+                    <li><a class="itemMenu" href="#">About</a></li>
+                    <li><a class="itemMenu" href="#">Contact</a></li>
+                    <button class="sign" type="submit">Sign in </button>
+                </ul>
+            </div>
+            <div class="E">
+                <article class="imgsite">
+                    <img src="background.png" alt="imagem-principal">
+                </article>
+            </div>    
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,214 @@
+@media screen and (max-width:2560px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2fr;
+        grid-template-rows: 90vh
+    }
+
+    aside {
+        grid-column-end: 6;
+    }
+
+    h3 {
+        color: #9400D3;
+        font-family: 'Varela Round', sans-serif;
+        font-size: 84px;
+        position: relative;
+        right: 5%;
+    }
+
+    .texto {
+        line-height: 29.5px;
+        font-family: Arial, Helvetica, sans-serif;
+        position: relative;
+        left: 108px;
+        bottom: 11px;
+    }
+
+    .formularios {
+        margin-left: 115px;
+        margin-bottom: 24px;
+    }
+
+    .chat {
+        border-radius: 12px 12px 12px 12px;
+        width: 147px;
+        height: 33px;
+        font-size: 19px;
+        font-family: arial;
+        border-color: #9400D3;
+        margin-left: 143px;
+    }
+
+    #nome {
+        outline: none;
+        border-radius: 10px;
+        box-shadow: 10px 5px 5px #c0c0c0;
+        width: 393px;
+        height: 40px;
+        border-style: hidden;
+    }
+
+    #texto {
+        outline: none;
+        border-radius: 10px;
+        box-shadow: 10px 5px 5px #c0c0c0;
+        width: 393px;
+        height: 40px;
+        border-style: hidden;
+    }
+
+    textarea {
+        overflow: hidden;
+        outline: none;
+        resize: none;
+        border-radius: 10px;
+        box-shadow: 10px 5px 5px #c0c0c0;
+        border-style: hidden;
+    }
+
+    .teste1 {
+        border-radius: 12px 12px 12px 12px;
+        width: 386px;
+        height: 33px;
+        font-size: 19px;
+        font-family: arial;
+        color: inherit;
+        border-style: hidden;
+        outline: none;
+    }
+
+    .teste2 {
+        outline: none;
+        border-radius: 12px 12px 12px 12px;
+        width: 386px;
+        height: 33px;
+        font-size: 19px;
+        font-family: arial;
+        color: inherit;
+        border-style: hidden;
+        outline: none;
+    }
+
+    .user {
+        position: relative;
+        bottom: 28px;
+        right: 21px;
+    }
+
+    .bandeira {
+        position: relative;
+        right: 22px;
+        bottom: 147px;
+    }
+
+    .subject {
+        position: relative;
+        bottom: 24px;
+        right: 25px;
+    }
+
+    .testeSpan1 {
+        color: red;
+        position: relative;
+        bottom: 47px;
+    }
+
+    .testeSpan2 {
+        color: red;
+        position: relative;
+        bottom: 49px;
+    }
+
+  .testeSpan3 {
+        color: red;
+        position: relative;
+        bottom:  170px;
+        display: flex;
+    } 
+
+    textarea {
+        width: 390px;
+    }
+
+
+    ::placeholder {
+        position: relative;
+        left: 50px;
+    }
+
+}
+
+/* ----------------------------------------------------VERSÃO MOBILE----------------------------------------------*/
+
+@media screen and (max-width:768px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 5fr 6fr;
+        grid-template-rows: 80vh
+    }
+
+
+    h3 {
+        font-size: 46px;
+        right: -11%;
+        margin-top: 3%;
+        margin-left: 18px;
+    }
+
+    aside {
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
+
+    .formularios {
+        margin-left: 76px;
+        position: relative;
+        top: 21px;
+
+    }
+
+    .texto {
+        left: 61px;
+        font-size: 13px;
+    }
+
+    .chat{
+        right: 10px;
+        margin-left: 73px;
+    }
+    #nome{
+        width: 320px;
+    }
+
+    #texto{
+        width: 320px;
+    }
+
+    textarea{
+        width: 320px;
+    }
+
+    .teste1{
+        width: 314px;
+
+    }
+
+    .teste2{
+        width: 314px;
+    }
+
+    .user{
+        right: 19px;
+    }
+    
+    .subject{
+        right: 20px;
+    }
+
+    .bandeira{
+        right: 20px;
+        bottom: 148px;
+    }
+
+}
