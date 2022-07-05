@@ -472,9 +472,18 @@ Diretivas são extensões da linguagem HTML, que fornecem a possibilidade de est
 
 <br><h3>I. Qual a diferença entre template-driven e reactive forms?</h3></br>
 
-O template-driven forms é um tipo de formulário mais simples de implementar, dada a sua proximidade em relação a como criamos formulários apenas com HTML (é necessário importar o módulo FormsModule).
+Para criar formulários em aplicações a API do Angular permite escolher entre duas abordagens: Template-Driven Forms ou Reactive Forms.
 
-O reactive forms fornece uma abordagem baseada em modelo para lidar com entradas de formulário cujos valores mudam ao longo do tempo, a lógica fica, geralmente, no componente e as suas validações são feitas programaticamente com TypeScript (é necessário importar o módulo ReactiveFormsModule).
+Abaixo, temos algumas diferenças entre elas:
+
+- No caso dos Template-Driven a lógica é implementada no template do componente (HTML)
+- Template-Driven Forms funcionam de forma assíncrona
+- Para usar o Template-Driven Forms é necessário importar o módulo FormsModule
+- No caso dos Reactive Forms a lógica fica, geralmente, no componente e as suas validações são feitas programaticamente com TypeScript.
+- Reactive Forms funciona de forma síncrona
+- Para usar Reactive Forms deverá ser importado o módulo ReactiveFormsModule
+
+Em resumo, o ReactiveForms você realiza a validação no seu componente, ou seja, se mudarem o template (que muda toda hora) a regra continua no componente, sem risco de perdê-la. Já o template form a regra de validação fica no template. É mais rápido de fazer, mas como o template muda toda hora é bem provável que você perca a regra de validação que adicionou.
 
 <br><h3>II. Quais benefícios temos ao usar um formulário reativo?</h3></br>
 
@@ -482,7 +491,11 @@ São mais flexíveis, fornecem um caminho direto para teste, e com isso você po
 
 <br><h3>III. Quais módulos são necessários para criar os formulários reativos?</h3></br>
 
-ReactiveFormsModule
+Antes de começar, você precisa importar o módulo ReactiveFormsModule no seu projeto. Esse modulo possui todas as diretivas de criação de formulários do tipo Reactive Forms. É necessário efetuar o import antes de qualquer componente que use um formulário. Para importar, é só incluir a linha abaixo no arquivo app.module.ts.
+
+```
+import { ReactiveFormsModule } from '@angular/forms';
+```
 
 <br><h3>IV. Quais classes base temos para formulários reativos no Angular?</h3></br>
 
@@ -500,31 +513,62 @@ ReactiveFormsModule
 
 <br><h3>V. Como é feita a configuração de um formulário reativo usando separadamente as classes base?</h3></br>
 
-A [formControl] diretiva vincula a FormControlinstância criada explicitamente a um elemento de formulário específico na exibição, usando um acessador de valor interno (implementa um campo de entrada para um único controle).
+Com os formulários reativos, você define o modelo do formulário diretamente na classe de componente. A `[formControl]` diretiva vincula a `FormControl` instância criada explicitamente a um elemento de formulário específico na visualização, usando um acessador de valor interno.
+
+O componente a seguir implementa um campo de entrada para um único controle, usando formas reativas. Neste exemplo, o modelo de formulário é a `FormControl` instância.
+
+```
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-reactive-favorite-color',
+  template: `
+    Favorite Color: <input type="text" [formControl]="favoriteColorControl">
+  `
+})
+export class FavoriteColorComponent {
+  favoriteColorControl = new FormControl('');
+}
+```
 
 <br><h3>VI. Como se dá o fluxo de informações entre o formulário reativo e o componente em Angular?</h3></br>
 
-Em formulários reativos, cada elemento de formulário na visualização está diretamente vinculado ao modelo de formulário (uma FormControlinstância). As atualizações da exibição para o modelo e do modelo para a exibição são síncronas e não dependem de como a interface do usuário é renderizada.
+Quando um aplicativo contém um formulário, o Angular deve manter a vista em sincronia com o modelo de componente e o modelo de componente em sincronia com a vista. Conforme os usuários alteram os valores e fazem seleções por meio da visualização, os novos valores devem ser refletidos no modelo de dados. Da mesma forma, quando a lógica do programa altera os valores no modelo de dados, esses valores devem ser refletidos na visualização.
+
+Os formulários reativos e orientados por modelo diferem na forma como lidam com os dados que fluem do usuário ou de alterações programáticas. Os diagramas a seguir ilustram os dois tipos de fluxo de dados para cada tipo de formulário, usando o campo de entrada de cor favorita definido acima.
 
 <br><h3>VII. Como é feita a captura dos dados de um formulário reativo e apresentado na tela?</h3></br>
 
-- O usuário chama o favoriteColorControl.setValue()método, que atualiza o FormControlvalor.
+Em formas reativas, cada elemento de formulário na visualização está diretamente vinculado ao modelo de formulário (uma FormControlinstância). As atualizações da visualização para o modelo e do modelo para a visualização são síncronas e não dependem de como a IU é renderizada.
 
-- A FormControlinstância emite o novo valor por meio do valueChangesobservável.
+O diagrama de visualização para modelo mostra como os dados fluem quando o valor de um campo de entrada é alterado da visualização por meio das etapas a seguir.
 
-- Quaisquer assinantes do valueChangesobservável recebem o novo valor.
+1. O usuário digita um valor no elemento de entrada, neste caso a cor favorita _Azul_ .
+2. O elemento de entrada do formulário emite um evento de "entrada" com o valor mais recente.
+3. O acessador do valor de controle que escuta os eventos no elemento de entrada do formulário retransmite imediatamente o novo valor para a `FormControl` instância.
+4. A `FormControl` instância emite o novo valor por meio do `valueChanges` observável.
+5. Todos os assinantes do `valueChanges` observável recebem o novo valor.
 
-- O acessador de valor de controle no elemento de entrada de formulário atualiza o elemento com o novo valor.
+![dataflow-reactive-forms-vtm](https://user-images.githubusercontent.com/85966559/145899232-58057efe-3ce3-482f-bf30-685c279ea263.png)
+
+O diagrama modelo para visualização mostra como uma mudança programática no modelo é propagada para a visualização por meio das etapas a seguir.
+
+1. O usuário chama o favoriteColorControl.setValue()método, que atualiza o FormControlvalor.
+2. A FormControlinstância emite o novo valor por meio do valueChangesobservável.
+3. Todos os assinantes do valueChangesobservável recebem o novo valor.
+4. O acessador de valor de controle no elemento de entrada do formulário atualiza o elemento com o novo valor.
+
+![dataflow-reactive-forms-mtv](https://user-images.githubusercontent.com/85966559/145899360-0b073c5a-9ae4-49db-b9dc-f75b8ff1ef93.png)
 
 <br><h3>VIII. Explique  para  o  que  serve  a  validação  de  um  formulário  e  como  isto  pode  ser  apresentado para o usuário?</h3></br>
 
-A validação de formulários faz parte do gerenciamento de qualquer conjunto de formulários, com isso ele melhora a qualidade geral dos dados
+A validação é parte integrante do gerenciamento de qualquer conjunto de formulários. Esteja você verificando os campos obrigatórios ou consultando uma API externa para um nome de usuário existente, o Angular fornece um conjunto de validadores integrados, bem como a capacidade de criar validadores personalizados.
 
-- Os formulários reativos definem validadores personalizados como funções que recebem um controle para validar.
+Os formulários reativos definem validadores personalizados como funções que recebem um controle para validar.
+Os formulários orientados a modelos são vinculados a diretivas de modelo e devem fornecer diretivas de validação personalizadas que envolvam as funções de validação.
 
-- Os formulários orientados por modelo estão vinculados a diretivas de modelo e devem fornecer diretivas de validação personalizadas que envolvem funções de validação.
-
-- Ele é apresentado ao usuário como uma solicitação de entrada de dados (ex.: login, cadastro e etc.), onde essa entrada deve receber os valores inseridos pelo mesmo, sendo a inserção de nome, preenchimento de todos os campos e etc.
+Essa validação é apresentada ao usuário através de validação de CSS. Adicionando elementos CSS que demonstrem o erro ao mesmo.
 
 <br></br>
 
@@ -693,7 +737,7 @@ Custom pipes (pipes personalizados) são utilizados para criar transformações 
 
 <br><h3>I. Qual o propósito de services no angular? </h3></br>
 
-O services é uma categoria ampla que engloba qualquer valor, função ou recurso que um aplicativo precisa. Um serviço é tipicamente uma classe com um propósito estreito e bem definido. Deve fazer algo específico e fazê-lo bem.
+Service é a função ou o objeto usado para organizar e/ou compartilhar estados de objetos e as regras de negócio da aplicação.
 
 <br><h3>II. Porque no Angular há uma distinção entre components e services?</h3></br>
 
@@ -709,7 +753,7 @@ Pode ter tarefas direcioadas pelo componet, sendo elas a busca de dados do servi
 
 <br><h3>V. Verdadeiro ou Falso. Uma service precisa obrigatoriamente estar em pelo menos um módulo? Justifique sua escolha.</h3></br>
 
-Verdadeiro, pois ela precisa deste módulo para gerar a função e realizar a comunicação com o component.
+Verdadeiro. Pois através dele que o Component poderá fazer a comunicação para retirar as informações do Service.
 
 <br><h3>VI. Verdadeiro ou Falso. Uma service é do tipo de padrão de projeto Singleton?Justifique sua escolha.</h3></br>
 
@@ -783,7 +827,38 @@ O protocolo HTTP é responsável por fornecer a comunicação entre front-end e 
 
 <br><h3>IV. Para usar o HttpClient no Angular, como devemos fazer sua importação e injeção?</h3></br>
 
-É necessário importar o arquivo Angular HttpClientModule. Configurar o injetor de dependência HttpClient com serviços de suporte para XSRF (Sea Surf ou Session Riding - é um vetor de ataque que aplica um truque no navegador web, fazendo com que ele execute uma ação indesejada na aplicação web alvo onde a vítima está logada). Importado automaticamente por HttpClientModule.
+A importação é feita na maioria das vezes através na raiz AppModule, do qual importa o HttpClientModule para a mesma. A partir disso se pode injetar o HttpClient como um dependência de uma classe de aplicativo.
+
+Exemplo: app / app.module.ts (trecho) - Importação
+
+```
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    // import HttpClientModule after BrowserModule.
+    HttpClientModule,
+  ],
+  declarations: [
+    AppComponent,
+  ],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+app / config / config.service.ts (trecho) - Injeção
+```
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable()
+export class ConfigService {
+  constructor(private http: HttpClient) { }
+}
+```
 
 <br><h3>V. Verdadeiro ou Falso. O HttpClient pode ser usado com RxJS? Justifique sua escolha.</h3></br>
 
@@ -827,15 +902,39 @@ Verdade, pois através do HttpClient.get() - método para buscar dados de um ser
 
 <br><h3>IX. Cite os principais status de uma requisição HTTP e faça um breve resumo de cada.</h3></br>
 
-- 100 Continue: Essa resposta provisória indica que tudo ocorreu bem até agora e que o cliente deve continuar com a requisição ou ignorar se já concluiu o que gostaria;
+- 100 Continue – É enviado em algumas circunstâncias, quando um cliente envia uma solicitação contendo um corpo. A resposta indica que os cabeçalhos de solicitação foram recebidos e que o cliente deve continuar a enviar o corpo. O servidor retorna uma segunda resposta quando a solicitação foi concluída.
+
+- 200 OK – Indica que a solicitação foi bem sucedida e que a resposta do corpo contém o resultado do pedido.
 
 - 201 Created: A requisição foi bem sucedida e um novo recurso foi criado como resultado. Esta é uma tipica resposta enviada após uma requisição POST;
 
+- 301 Moved Permanently – Redireciona o navegador de forma permanente para uma URL diferente, que é especificada no cabeçalho Location. O cliente deve usar a nova URL no futuro, em vez do original. 
+
+- 302 Found – Redireciona o navegador temporariamente para uma URL diferente, que é especificada no cabeçalho Location. O cliente deve reverter para a URL original nas solicitações subseqüentes.
+
 - 303 See Other: O servidor manda essa resposta para instruir ao cliente buscar o recurso requisitado em outra URI com uma requisição GET;
+
+- 304 Not Modified – Instrui o navegador a usar a sua cópia em cache do recurso solicitado. O servidor usa os cabeçalhos da solicitação If-Modified-Since e If-None-Match para determinar se o cliente tem a versão mais recente do recurso.
+
+- 400 Bad Request – Indica que o cliente apresentou uma solicitação HTTP inválida. Você provavelmente vai encontrar isso quando você tem modificar um pedido de certa maneira inválida, como pela colocação de um caractere de espaço na URL.
+
+- 401 Unauthorized – Indica que o servidor requer autenticação HTTP antes do pedido ser atendido. O cabeçalho WWW-Authenticate contém detalhes sobre o tipo(s) de autenticação suportado.
+
+- 403 Forbidden – Indica que ninguém está autorizado para acessar o recurso solicitado, independentemente de autenticação.
+
+- 404 Not Found – Indica que o recurso solicitado não existe. 405 Method Not Allowed – Indica que o método utilizado no pedido é suportado para a URL especificado. Por exemplo, poderá receber esta código de status se você tentar usar o método PUT onde não é suportado.
 
 - 405 Method Not Allowed: O método de solicitação é conhecido pelo servidor, mas foi desativado e não pode ser usado. Os dois métodos obrigatórios, GET e HEAD, nunca devem ser desabilitados e não devem retornar este código de erro;
 
+- 413 Request Entity Too Large – Se você está buscando por vulnerabilidades de buffer overflow no código nativo, e, portanto, está enviando string de dados longas, isso indica que o corpo de seu pedido é muito grande para o servidor manusear.
+
+- 414 Request URI Too Long – É semelhante à resposta 413. Ela indica que a URL utilizadas no pedido é muito grande para o servidor de manusear.
+
+- 500 Internal Server Error – Indica que o servidor encontrou um erro ao tentar cumprir com a solicitação. Isso normalmente ocorre quando você apresenta um input inesperado que causou um erro não tratado em algum lugar dentro do processamento da aplicação. Você deve analisar cuidadosamente o conteúdo completo da resposta do servidor para quaisquer detalhes indicando a natureza do erro.
+
 - 501 Not Implemented: O método da requisição não é suportado pelo servidor e não pode ser manipulado. Os únicos métodos exigidos que servidores suportem (e portanto não devem retornar este código) são GET e HEAD.
+
+- 503 Service Unavailable – Normalmente indica que, embora o servidor we está funcionando e pode responder às solicitações, o aplicativo acessada através do servidor não está respondendo. Você deve verificar se este é o resultado de qualquer ação que você executou.
 
 <br><h3>X. Faça um exemplo de chamadas do tipo GET, POST, PUT, DELETE.</h3></br>
 
@@ -974,40 +1073,149 @@ Na programação funcional a modelagem de um problema computacional é composta 
 
 <br><h3>IX. Ainda dentro de operadores de criação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
 
-- ajax; Ele cria um observável para uma solicitação Ajax com um objeto de solicitação com url, cabeçalhos, etc. ou uma string para uma URL.
-```html
-const ajax: AjaxCreationMethod;
+- ajax: Ele cria um observável para uma solicitação Ajax com um objeto de solicitação com url, cabeçalhos, etc. ou uma string para uma URL. 
+
+Exemplo: Usando ajax () para buscar o objeto de resposta que está sendo retornado da API.
+```
+import { ajax } from 'rxjs/ajax';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+const obs$ = ajax(`https://api.github.com/users?per_page=5`).pipe(
+  map(userResponse => console.log('users: ', userResponse)),
+  catchError(error => {
+    console.log('error: ', error);
+    return of(error);
+  })
+);
 ```
 
-- from; Cria um Observable a partir de um Array, um objeto do tipo array, um Promise, um objeto iterável ou um objeto do tipo Observable.
-```html
-from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T>
+- from: Cria um Observable a partir de um Array, um objeto semelhante a um array, uma Promise, um objeto iterável ou um objeto semelhante a um Observable.
+
+Exemplo: Converte uma matriz em um observável
+```
+import { from } from 'rxjs';
+
+const array = [10, 20, 30];
+const result = from(array);
+
+result.subscribe(x => console.log(x));
+
+// Logs:
+// 10
+// 20
+// 30
 ```
 
-- fromEvent; Cria um Observable que emite eventos de um tipo específico provenientes de determinado destino de evento.
-```html
-fromEvent<T>(target: any, eventName: string, options?: EventListenerOptions | ((...args: any[]) => T), resultSelector?: (...args: any[]) => T): Observable<T>
+- fromEvent: Cria um Observable que emite eventos de um tipo específico vindo de um determinado destino de evento.
+
+Exemplo: Emite cliques que acontecem no documento DOM
+```
+import { fromEvent } from 'rxjs';
+
+const clicks = fromEvent(document, 'click');
+clicks.subscribe(x => console.log(x));
+
+// Results in:
+// MouseEvent object logged to console every time a click
+// occurs on the document.
 ```
 
-- generate; Gera uma sequência observável executando um loop controlado por estado produzindo os elementos da sequência, usando o agendador especificado para enviar mensagens de observador.
-```html
-generate<T, S>(initialStateOrOptions: S | GenerateOptions<T, S>, condition?: ConditionFunc<S>, iterate?: IterateFunc<S>, resultSelectorOrScheduler?: SchedulerLike | ResultFunc<S, T>, scheduler?: SchedulerLike): Observable<T>
+- generate: Permite que você crie um fluxo de valores gerado com um loop muito semelhante a um loop for tradicional.
+
+Exemplo: Use com funções de condição e iteração
+```
+import { generate } from 'rxjs';
+
+const result = generate(0, x => x < 3, x => x + 1);
+
+result.subscribe({
+  next: value => console.log(value),
+  complete: () => console.log('Complete!')
+});
+
+// Logs:
+// 0
+// 1
+// 2
+// "Complete!"
 ```
 - of; Converte os argumentos em uma sequência observável.
-```html
-of<T>(...args: (SchedulerLike | T)[]): Observable<T>
+
+Exemplo: Emita os valores 10, 20, 30
+```
+import { of } from 'rxjs';
+
+of(10, 20, 30)
+.subscribe(
+  next => console.log('next:', next),
+  err => console.log('error:', err),
+  () => console.log('the end'),
+);
+
+// Outputs
+// next: 10
+// next: 20
+// next: 30
+// the end
 ```
 - interval; Cria um Observable que emite números sequenciais a cada intervalo de tempo especificado, em um SchedulerLike.
-```html
-interval(period: number = 0, scheduler: SchedulerLike = asyncScheduler): Observable<number>
+
+Exemplo: Emite números crescentes, um a cada segundo (1000ms) até o número 3
 ```
-- throwError; Emitir erro na assinatura.
-```html
-throwError(errorOrErrorFactory: any, scheduler?: SchedulerLike): Observable<never>
+import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+const numbers = interval(1000);
+
+const takeFourNumbers = numbers.pipe(take(4));
+
+takeFourNumbers.subscribe(x => console.log('Next: ', x));
+
+// Logs:
+// Next: 0
+// Next: 1
+// Next: 2
+// Next: 3
 ```
-- timer; Após determinada duração, emite números em sequência a cada duração especificada.
-```html
-timer(dueTime: number | Date = 0, intervalOrScheduler?: number | SchedulerLike, scheduler: SchedulerLike = asyncScheduler): Observable<number>
+- throwError: Cria um observável que criará uma instância de erro e enviará para o consumidor como um erro imediatamente após a assinatura. 
+
+Exemplo: Crie um observável simples que criará um novo erro com um carimbo de data / hora e o registrará junto com a mensagem toda vez que você se inscrever nele.
+```
+import { throwError } from 'rxjs';
+
+let errorCount = 0;
+
+const errorWithTimestamp$ = throwError(() => {
+   const error: any = new Error(`This is error number ${++errorCount}`);
+   error.timestamp = Date.now();
+   return error;
+});
+
+errorWithTimesptamp$.subscribe({
+   error: err => console.log(err.timestamp, err.message)
+});
+
+errorWithTimesptamp$.subscribe({
+   error: err => console.log(err.timestamp, err.message)
+});
+
+// Logs the timestamp and a new error message each subscription;
+```
+- timer: Cria um observável que esperará por um período de tempo especificado, ou data exata, antes de emitir o número 0.
+
+Exemplo: Aguarde 3 segundos e inicie outro observável
+```
+import { timer, of } from 'rxjs';
+import { concatMapTo } from 'rxjs/operators';
+
+// This could be any observable
+const source = of(1, 2, 3);
+
+const result = timer(3000).pipe(
+  concatMapTo(source)
+)
+.subscribe(console.log);
 ```
 
 <br><h3>X. Quais os operadores de criação de associação?</h3></br>
@@ -1029,18 +1237,58 @@ timer(dueTime: number | Date = 0, intervalOrScheduler?: number | SchedulerLike, 
 <br><h3>XI. Ainda dentro de operadores de criação de associação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
 
 - concat; Cria um Observable de saída que emite sequencialmente todos os valores do primeiro Observable fornecido e depois passa para o próximo.
-```html
-concat(...args: any[]): Observable<unknown>
+
+Exemplo: Concatene um cronômetro contando de 0 a 3 com uma sequência síncrona de 1 a 10
+```
+import { concat, interval, range } from 'rxjs';
+import { take } from 'rxjs/operators';
+
+const timer = interval(1000).pipe(take(4));
+const sequence = range(1, 10);
+const result = concat(timer, sequence);
+result.subscribe(x => console.log(x));
+
+// results in:
+// 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
 ```
 
-- forkJoin; Aceita um ou um dicionário Arrayde e retorna um que emite uma matriz de valores na mesma ordem exata da matriz passada ou um dicionário de valores na mesma forma que o dicionário passado.ObservableInputObjectObservableInputObservable
-```html
-forkJoin(...args: any[]): Observable<any>
+- forkJoin: Aceita um Array de ObservableInput ou um dicionário Object de ObservableInput e retorna um Observable que emite uma matriz de valores na mesma ordem exata da matriz passada ou um dicionário de valores na mesma forma do dicionário passado.
+
+Exemplo: Use forkJoin com um dicionário de entradas observáveis
+```
+import { forkJoin, of, timer } from 'rxjs';
+
+const observable = forkJoin({
+  foo: of(1, 2, 3, 4),
+  bar: Promise.resolve(8),
+  baz: timer(4000),
+});
+observable.subscribe({
+ next: value => console.log(value),
+ complete: () => console.log('This is how it ends!'),
+});
+
+// Logs:
+// { foo: 4, bar: 8, baz: 0 } after 4 seconds
+// "This is how it ends!" immediately after
 ```
 
-- merge; Cria uma saída Observable que emite simultaneamente todos os valores de cada entrada Observable.
-```html
-merge(...args: (number | SchedulerLike | Observable<unknown> | InteropObservable<unknown> | AsyncIterable<unknown> | PromiseLike<unknown> | ArrayLike<...> | Iterable<...> | ReadableStreamLike<...>)[]): Observable<unknown>
+- merge: Cria uma saída Observable que emite simultaneamente todos os valores de cada entrada Observable fornecida.
+
+Exemplo: Combine dois observáveis: intervalo de 1s e cliques
+```
+import { merge, fromEvent, interval } from 'rxjs';
+
+const clicks = fromEvent(document, 'click');
+const timer = interval(1000);
+const clicksOrTimer = merge(clicks, timer);
+clicksOrTimer.subscribe(x => console.log(x));
+
+// Results in the following:
+// timer will emit ascending values, one every second(1000ms) to console
+// clicks logs MouseEvents to console everytime the "document" is clicked
+// Since the two streams are merged you see these happening
+// as they occur.
 ```
 
 <br><h3>XII. Quais os operadores de transformação?</h3></br>
@@ -1103,37 +1351,113 @@ merge(...args: (number | SchedulerLike | Observable<unknown> | InteropObservable
 
 <br><h3>XIII. Ainda dentro de operadores de transformação, explique melhor e dê um exemplo para os seguintes operadores:</h3></br>
 
-- concatMap; Projeta cada valor de origem para um Observable que é mesclado no Observable de saída, de maneira serializada, esperando que cada um seja concluído antes de mesclar o próximo.
-```html
-concatMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+- concatMap: Projeta cada valor de origem para um Observable que é mesclado na saída Observable, de maneira serializada, esperando que cada um seja concluído antes de mesclar o próximo.
+
+Exemplo: Para cada evento de clique, marque a cada segundo de 0 a 3, sem simultaneidade
+```
+import { fromEvent, interval } from 'rxjs';
+import { concatMap, take } from 'rxjs/operators';
+
+const clicks = fromEvent(document, 'click');
+const result = clicks.pipe(
+  concatMap(ev => interval(1000).pipe(take(4)))
+);
+result.subscribe(x => console.log(x));
+
+// Results in the following:
+// (results are not concurrent)
+// For every click on the "document" it will emit values 0 to 3 spaced
+// on a 1000ms interval
+// one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
 ```
 
-- map; Aplica uma determinada projectfunção a cada valor emitido pelo Observable de origem e emite os valores resultantes como um Observable.
-```html
-map<T, R>(project: (value: T, index: number) => R, thisArg?: any): OperatorFunction<T, R>
+- map: Aplica uma determinada projectfunção a cada valor emitido pela fonte Observável e emite os valores resultantes como um Observável.
+
+Exemplo: Mapeie cada clique para a posição clientX desse clique
+```
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+const clicks = fromEvent(document, 'click');
+const positions = clicks.pipe(map(ev => ev.clientX));
+positions.subscribe(x => console.log(x));
+
 ```
 
 - mapTo; Emite o valor constante dado na saída Observable toda vez que a fonte Observable emite um valor.
-```html
-mapTo<R>(value: R): OperatorFunction<any, R>
+
+Exemplo: Mapeie cada clique para a string 'Hi'
+```
+import { fromEvent } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+
+const clicks = fromEvent(document, 'click');
+const greetings = clicks.pipe(mapTo('Hi'));
+greetings.subscribe(x => console.log(x));
 ```
 
 - mergeMap; Projeta cada valor de origem para um Observable que é mesclado na saída Observable.
-```html
-mergeMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: number | ((outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R), concurrent: number = Infinity): OperatorFunction<T, ObservedValueOf<O> | R>
+
+Exemplo: Mapeie e nivele cada letra para um tique-taque observável a cada 1 segundo
+```
+import { of, interval } from 'rxjs';
+import { mergeMap, map } from 'rxjs/operators';
+
+const letters = of('a', 'b', 'c');
+const result = letters.pipe(
+  mergeMap(x => interval(1000).pipe(map(i => x+i))),
+);
+result.subscribe(x => console.log(x));
+
+// Results in the following:
+// a0
+// b0
+// c0
+// a1
+// b1
+// c1
+// continues to list a,b,c with respective ascending integers
 ```
 
 - mergeMapTo; Projeta cada valor de origem para o mesmo Observable que é mesclado várias vezes na saída Observable.
-```html
-mergeMapTo<T, R, O extends ObservableInput<unknown>>(innerObservable: O, resultSelector?: number | ((outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R), concurrent: number = Infinity): OperatorFunction<T, ObservedValueOf<O> | R>
+
+Exemplo: Para cada evento de clique, inicie um intervalo observável marcando a cada 1 segundo
+```
+import { fromEvent, interval } from 'rxjs';
+import { mergeMapTo } from 'rxjs/operators';
+
+const clicks = fromEvent(document, 'click');
+const result = clicks.pipe(mergeMapTo(interval(1000)));
+result.subscribe(x => console.log(x));
 ```
 
 - switchMap; Projeta cada valor de origem para um Observable que é mesclado no Observable de saída, emitindo valores apenas do Observable projetado mais recentemente.
-```html
-switchMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+
+Exemplo: Gere um novo observável de acordo com os valores observáveis de origem
+```
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+const switched = of(1, 2, 3).pipe(switchMap((x: number) => of(x, x ** 2, x ** 3)));
+switched.subscribe(x => console.log(x));
+// outputs
+// 1
+// 1
+// 1
+// 2
+// 4
+// 8
+// ... and so on
 ```
 
-- switchMapTo; Projeta cada valor de origem para o mesmo Observable que é nivelado várias vezes com switchMapo Observable de saída.
-```html
-switchMapTo<T, R, O extends ObservableInput<unknown>>(innerObservable: O, resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, ObservedValueOf<O> | R>
+- switchMapTo; Projeta cada valor de origem para o mesmo Observable que é nivelado várias vezes com switchMap na saída Observable.
+
+Exemplo: Execute novamente um intervalo observável em cada evento de clique
+```
+import { fromEvent, interval } from 'rxjs';
+import { switchMapTo } from 'rxjs/operators';
+
+const clicks = fromEvent(document, 'click');
+const result = clicks.pipe(switchMapTo(interval(1000)));
+result.subscribe(x => console.log(x));
 ```

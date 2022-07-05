@@ -1,0 +1,20 @@
+<h2>Criar Usuário</h2>
+
+<div>
+  <label
+    >Nome:
+    <input placeholder="Insira o Nome" [(ngModel)]="request.name" />
+  </label>
+  <br />
+  <br />
+  <button (click)="save()">Gravar</button>
+</div>
+<br />
+<br />
+
+<div *ngIf="response">
+  <h3>Criado com sucesso!</h3>
+  <label>Nome: {{ response.name }}</label>
+  <br />
+  <label>Id:{{ response.id }}</label>
+</div>
