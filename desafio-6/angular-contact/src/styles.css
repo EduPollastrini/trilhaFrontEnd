@@ -42,39 +42,6 @@ a {
   --body-bold-font: "OpenSans-Bold", sans-serif;
 }
 
-/*====== FONTS =====*/
-
-/* @font-face {
-  font-family: 'DroidSerif';
-  src: url(assets/fonts/fonts/droid-serif/DroidSerif-Bold.ttf);
-  font-style: normal;
-  font-weight: 700;
-}
-@font-face {
-  font-family: 'DroidSerif-Italic';
-  src: url(assets/fonts/fonts/droid-serif/DroidSerif-Italic.ttf);
-  font-style: italic;
-  font-weight: 400;
-}
-@font-face {
-  font-family: 'OpenSans';
-  src: url(assets/fonts/fonts/open-sans/OpenSans-Regular.ttf);
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: 'OpenSans-SemiBold';
-  src: url(assets/fonts/fonts/open-sans/OpenSans-Semibold.ttf);
-  font-style: normal;
-  font-weight: 600;
-}
-@font-face {
-  font-family: 'OpenSans-Bold';
-  src: url(assets/fonts/fonts/open-sans/OpenSans-Bold.ttf);
-  font-style: normal;
-  font-weight: 700;
-} */
-
 /*====== BASE =====*/
 
 html {
